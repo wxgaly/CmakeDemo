@@ -12,6 +12,8 @@ class Person
     public: 
             int age;
             string name;
+            Person();
+            Person(int age, string name);
             void toString();
 
 };
