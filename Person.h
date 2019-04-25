@@ -7,16 +7,14 @@
 
 using namespace std;
 
-class Person 
+class Person
 {
-    public: 
-            int age;
-            string name;
-            Person();
-            Person(int age, string name);
-            void toString();
-
+public:
+    int age;
+    string name;
+    Person();
+    Person(int age, string name);
+    void toString();
 };
-
 
 #endif
