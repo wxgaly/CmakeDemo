@@ -2,6 +2,8 @@
 #include "Person.h"
 #include "Man.h"
 
+using namespace std;
+
 int main(int, char **)
 {
     int a = 2;
@@ -17,6 +19,28 @@ int main(int, char **)
 
     Man man1 = Man(10, "wxgaly", 1);
     man1.toString();
+
+    int *p = &a;
+    cout << "*p " << *p << endl;
+
+    int arr[3] = {1, 2, 3};
+    int *index = arr;
+
+    for (size_t i = 0; i < 3; i++)
+    {
+        cout << "arr[" << i << "] = " << *index << endl;
+        index++;
+    }
+
+    index = &arr[2];
+
+    for (int i = 2; i >= 0; i--)
+    {
+        /* code */
+        cout << "arr[" << i << "] = " << *index << endl;
+        index--;
+    }
+    
 
     // std::cout << "a + b = " << a + b << std::endl;
     // std::cout << "Hello, world!\n";
