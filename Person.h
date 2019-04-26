@@ -14,6 +14,7 @@ public:
     string name;
     Person();
     Person(int age, string name);
+    ~Person();
     void toString();
 };
 

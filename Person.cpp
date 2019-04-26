@@ -11,6 +11,11 @@ Person::Person(int age1, string name1)
     name = name1;
 }
 
+Person::~Person()
+{
+    cout << "person " << name << " delete" << endl;
+}
+
 void Person::toString()
 {
     cout << "name is " << name << endl;
