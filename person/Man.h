@@ -4,7 +4,7 @@
 //继承
 #include "Person.h"
 
-class Man : Person
+class Man : public Person
 {
 public:
     int sex;
