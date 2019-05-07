@@ -13,15 +13,18 @@ enable_testing()
 include_directories(
     ${PROJECT_SOURCE_DIR}/person
     ${PROJECT_SOURCE_DIR}/utils
+    ${PROJECT_SOURCE_DIR}/net
 )
 
 # add_subdirectory(utils)
+add_library(net net/UdpClient.cpp)
 add_library(person person/Person.cpp person/Man.cpp)
 add_library(stack utils/Stack.cpp)
 
 #生成可执行的文件
-add_executable(helloworld ${DIR_TOOT_SRCS})
+add_executable(helloworld A.cpp main.cpp)
 
+target_link_libraries(helloworld net)
 target_link_libraries(helloworld person)
 target_link_libraries(helloworld stack)
 
