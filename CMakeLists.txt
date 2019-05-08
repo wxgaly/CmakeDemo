@@ -5,7 +5,8 @@ project(helloworld VERSION 0.1.0)
 aux_source_directory(. DIR_TOOT_SRCS)
 
 #dubug 模式
-set (CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
+# set (CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -std=c++11")
 include(CTest)
 enable_testing()
 

@@ -115,7 +115,7 @@ int main(int, char **)
     // fileUtil->testRead();
 
     try
-     {
+    {
         Stack<int> intStack;
 
         intStack.push(7);
