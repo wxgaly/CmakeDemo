@@ -1,11 +1,13 @@
 #include <iostream>
-#include "Person.h"
-#include "Man.h"
+// #include "Person.h"
+// #include "Man.h"
 // #include "file/FileUtil.h"
-#include "Stack.cpp"
+// #include "Stack.cpp"
 #include <pthread.h>
-#include "UdpClient.h"
-#include "A.cpp"
+// #include "UdpClient.h"
+// #include "A.cpp"
+// #include <boost/date_time.hpp>
+#include <boost/asio.hpp>
 
 using namespace std;
 
@@ -70,6 +72,11 @@ void testTemplate()
     cout << "Max(s1, s2): " << Max(s1, s2) << endl;
 }
 
+void handler(const boost::system::error_code &ec)
+{
+    std::cout << "5 s." << std::endl;
+}
+
 int main(int, char **)
 {
     // int a = 2;
@@ -114,17 +121,17 @@ int main(int, char **)
     // // fileUtil->testWrite();
     // fileUtil->testRead();
 
-    try
-    {
-        Stack<int> intStack;
+    // try
+    // {
+    //     Stack<int> intStack;
 
-        intStack.push(7);
-        cout << intStack.top() << endl;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << '\n';
-    }
+    //     intStack.push(7);
+    //     cout << intStack.top() << endl;
+    // }
+    // catch (const std::exception &e)
+    // {
+    //     std::cerr << e.what() << '\n';
+    // }
 
     // testThread();
 
@@ -132,8 +139,18 @@ int main(int, char **)
     // udpclient.bind("127.0.0.1", 8080);
     // cout << "ip : " << udpclient.getIp() << endl;
 
-    A<int> a;
-    cout << a.add(1, 2) << endl;
+    // A<int> a;
+    // cout << a.add(1, 2) << endl;
 
     // testTemplate();
+
+    // cout << "Boost版本: " << BOOST_VERSION << endl;
+    // boost::posix_time::time_duration td(1, 10, 30, 1000);
+    // cout << boost::posix_time::to_simple_string(td) << endl;
+
+    boost::asio::io_service io_service;
+    boost::asio::deadline_timer timer(io_service, boost::posix_time::seconds(5));
+    timer.async_wait(handler);
+    io_service.run();
+
 }
