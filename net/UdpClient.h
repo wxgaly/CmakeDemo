@@ -12,16 +12,19 @@
 #include <boost/asio.hpp>
 
 using namespace std;
+using namespace boost::asio;
 
 class UdpClient
 {
 private:
     string ip;
     int port;
+    io_service m_io_service;
 
 public:
     UdpClient();
-    void bind(string ip, int port);
+    void bind(const std::string& ip, int port);
+    void sendPacket(void* data, bool isBroadcast);
     string getIp();
 };
 

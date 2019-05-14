@@ -14,13 +14,9 @@ set(CMAKE_CXX_STANDARD 11)
 # include(CTest)
 # enable_testing()
 
-set(BOOST_ROOT /Users/wangxuguang/Desktop/code/test/mycode/boost_1_66_0)
-# set(BOOST_ROOT /Users/wangxuguang/Desktop/code/test/mycode/boost_1_70_0/boost)
-find_package(Boost COMPONENTS date_time system REQUIRED)
-
-# if(NOT Boost_FOUND)
-#     message("Not found Boost")
-# endif()
+# set(BOOST_ROOT /Users/wangxuguang/Desktop/code/test/mycode/boost_1_66_0)
+set(BOOST_ROOT /Users/wangxuguang/Desktop/code/test/mycode/boost_1_70_0)
+find_package(Boost COMPONENTS system REQUIRED)
 
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
@@ -30,22 +26,6 @@ if(Boost_FOUND)
     message(STATUS "Boost_LIBRARIES = ${Boost_LIBRARIES}")
     message(STATUS "Boost_LIB_VERSION = ${Boost_LIB_VERSION}")
 endif()
-# add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
-# set(Boost_USE_STATIC_LIBS        ON)  # only find static libs
-# set(Boost_USE_DEBUG_LIBS         OFF) # ignore debug libs and
-# set(Boost_USE_RELEASE_LIBS       ON)  # only find release libs
-# set(Boost_USE_MULTITHREADED      ON)
-# set(Boost_USE_STATIC_RUNTIME    OFF)
-# set(Boost_INCLUDE_DIRS "${BOOST_ROOT}")
-# set(Boost_LIBRARIES "${BOOST_ROOT}/stage/lib")
-# find_package(Boost 1.66.0 COMPONENTS date_time system asio)
-
-# if(Boost_FOUND)
-#     include_directories(${Boost_INCLUDE_DIRS})
-#     message(STATUS "BOOST_ROOT: ${BOOST_ROOT}")
-#     message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
-#     message(STATUS "Boost_LIBRARIES = ${Boost_LIBRARIES}")
-# endif()
 
 
 # 添加头文件路径
@@ -64,11 +44,12 @@ add_subdirectory(net)
 #生成可执行的文件
 add_executable(helloworld main.cpp)
 
+target_link_libraries(helloworld net)
 target_link_libraries(helloworld 
     ${Boost_LIBRARIES}
 )
 
-target_link_libraries(helloworld net)
+
 # target_link_libraries(helloworld person)
 # target_link_libraries(helloworld stack)
 

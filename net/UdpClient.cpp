@@ -11,11 +11,20 @@ UdpClient::UdpClient()
     cout << "UdpClient init" << endl;
 }
 
-void UdpClient::bind(string ip, int port)
+void UdpClient::bind(const std::string& ip, int port)
 {
-    cout << "ip is " << ip << " ,port is " << port << endl;
-    this->ip = ip;
-    this->port = port;
+    try
+    {
+        cout << "ip is " << ip << " ,port is " << port << endl;
+        this->ip = ip;
+        this->port = port;
+
+        ip::udp::endpoint local_endpoint(ip::udp::v4(), port);
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }
 
 string UdpClient::getIp()

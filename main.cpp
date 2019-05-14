@@ -138,7 +138,7 @@ int main(int, char **)
     // testThread();
 
     UdpClient udpclient;
-    udpclient.bind("127.0.0.1", 8080);
+    udpclient.bind("", 8080);
     std::cout << "ip : " << udpclient.getIp() << std::endl;
 
     // A<int> a;
@@ -155,11 +155,13 @@ int main(int, char **)
     // timer.async_wait(handler);
     // io_service.run();
 
-    io_service io_service;
-    ip::udp::endpoint local_endpoint(ip::udp::v4(), 16600);
-    ip::udp::endpoint remote_endpoint(ip::address_v4::from_string("225.225.225.225"), 16601);
-    ip::udp::socket socket(io_service, local_endpoint);
-    char* send_data = "1";
-    socket.send_to(buffer(send_data, strlen(send_data) + 1/*the size of contents*/), remote_endpoint);
+    // io_service io_service;
+    // ip::udp::endpoint local_endpoint(ip::udp::v4(), 16600);
+    // // ip::udp::endpoint remote_endpoint(ip::address_v4::from_string("192.168.0.6"), 16611);
+    // ip::udp::endpoint broadcast_endpoint(ip::address_v4::broadcast(), 16601);
+    // ip::udp::socket socket(io_service, local_endpoint);
+    // socket_base::broadcast option(true);
+    // socket.set_option(option);
+    // socket.send_to(buffer((void*)0, 0/*the size of contents*/), broadcast_endpoint);
     
 }
