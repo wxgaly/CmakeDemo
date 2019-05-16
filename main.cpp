@@ -10,8 +10,12 @@
 #include <boost/version.hpp>
 #include <boost/asio.hpp>
 
+#include <Poco/Net/DatagramSocket.h>
+#include <Poco/Thread.h>
+
 // using namespace std;
 using namespace boost::asio;
+using namespace Poco::Net;
 
 struct thread_data
 {
@@ -77,6 +81,26 @@ inline T const &Max(T const &a, T const &b)
 void handler(const boost::system::error_code &ec)
 {
     std::cout << "5 s." << std::endl;
+}
+
+void testPOCOUdp()
+{
+    try
+    {
+        SocketAddress bindAddress = SocketAddress(IPAddress(), 16600);
+        DatagramSocket sender = DatagramSocket(bindAddress, true);
+        SocketAddress sendAddress = SocketAddress(IPAddress("192.168.0.6"), 16601);
+
+        // sender.setBroadcast(true);
+        int ret = sender.sendTo("1", 1, sendAddress, 0);
+        std::cout << "testPOCOUdp ret : " << ret << std::endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+
+    Poco::Thread::sleep(20);
 }
 
 int main(int, char **)
@@ -163,5 +187,6 @@ int main(int, char **)
     // socket_base::broadcast option(true);
     // socket.set_option(option);
     // socket.send_to(buffer((void*)0, 0/*the size of contents*/), broadcast_endpoint);
-    
+
+    testPOCOUdp();
 }

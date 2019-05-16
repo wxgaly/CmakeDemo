@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD 11)
 # include(CTest)
 # enable_testing()
 
+# 添加boost支持
 # set(BOOST_ROOT /Users/wangxuguang/Desktop/code/test/mycode/boost_1_66_0)
 set(BOOST_ROOT /Users/wangxuguang/Desktop/code/test/mycode/boost_1_70_0)
 find_package(Boost COMPONENTS system REQUIRED)
@@ -27,6 +28,17 @@ if(Boost_FOUND)
     message(STATUS "Boost_LIB_VERSION = ${Boost_LIB_VERSION}")
 endif()
 
+# 增加poco使用
+set(POCO_ROOT_DIR "/Users/wangxuguang/Desktop/code/test/github/poco")
+
+include_directories(${POCO_ROOT_DIR}/Net/include)
+include_directories(${POCO_ROOT_DIR}/Util/include)
+include_directories(${POCO_ROOT_DIR}/JSON/include)
+include_directories(${POCO_ROOT_DIR}/Foundation/include)
+
+LINK_DIRECTORIES(${POCO_ROOT_DIR}/lib/)
+
+MESSAGE(STATUS "t1 This is SOURCE dir ${POCO_ROOT_DIR}/lib")
 
 # 添加头文件路径
 include_directories(
@@ -48,6 +60,7 @@ target_link_libraries(helloworld net)
 target_link_libraries(helloworld 
     ${Boost_LIBRARIES}
 )
+target_link_libraries(helloworld PocoNet PocoUtil PocoJSON PocoXML PocoFoundation)
 
 
 # target_link_libraries(helloworld person)
