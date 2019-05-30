@@ -33,12 +33,13 @@ set(POCO_ROOT_DIR "/Users/wangxuguang/Desktop/code/test/github/poco")
 
 include_directories(${POCO_ROOT_DIR}/Net/include)
 include_directories(${POCO_ROOT_DIR}/Util/include)
-include_directories(${POCO_ROOT_DIR}/JSON/include)
+# include_directories(${POCO_ROOT_DIR}/JSON/include)
 include_directories(${POCO_ROOT_DIR}/Foundation/include)
 
-LINK_DIRECTORIES(${POCO_ROOT_DIR}/lib/)
+LINK_DIRECTORIES(${POCO_ROOT_DIR}/lib)
+# LINK_DIRECTORIES("${POCO_ROOT_DIR}/lib/libPocoNet.60.dylib")
 
-MESSAGE(STATUS "t1 This is SOURCE dir ${POCO_ROOT_DIR}/lib")
+MESSAGE(STATUS "t1 This is SOURCE dir ${POCO_ROOT_DIR}/lib/libPocoNet.60.dylib")
 
 # 添加头文件路径
 include_directories(
@@ -60,7 +61,8 @@ target_link_libraries(helloworld net)
 target_link_libraries(helloworld 
     ${Boost_LIBRARIES}
 )
-target_link_libraries(helloworld PocoNet PocoUtil PocoJSON PocoXML PocoFoundation)
+
+target_link_libraries(helloworld PocoNet PocoUtil PocoFoundation)
 
 
 # target_link_libraries(helloworld person)

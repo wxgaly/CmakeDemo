@@ -9,10 +9,23 @@
 
 #include <iostream>
 #include <string>
+#include "../ProjectConstants.h"
+
+#ifdef POCO 
+
+#include <Poco/Net/DatagramSocket.h>
+using namespace Poco::Net;
+
+#endif
+
+#ifdef BOOST
+
 #include <boost/asio.hpp>
+using namespace boost::asio;
+
+#endif
 
 using namespace std;
-using namespace boost::asio;
 
 class UdpClient
 {
@@ -24,7 +37,7 @@ private:
 public:
     UdpClient();
     void bind(const std::string& ip, int port);
-    void sendPacket(void* data, bool isBroadcast);
+    void sendPacket(const void* data, bool isBroadcast);
     string getIp();
 };
 

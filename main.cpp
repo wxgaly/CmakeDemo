@@ -162,8 +162,10 @@ int main(int, char **)
     // testThread();
 
     UdpClient udpclient;
-    udpclient.bind("", 8080);
+    udpclient.bind("192.168.0.6", 16600);
     std::cout << "ip : " << udpclient.getIp() << std::endl;
+    unsigned char data[] = {1, 2, 3, 4};
+    udpclient.sendPacket(data, false);
 
     // A<int> a;
     // cout << a.add(1, 2) << endl;
@@ -188,5 +190,5 @@ int main(int, char **)
     // socket.set_option(option);
     // socket.send_to(buffer((void*)0, 0/*the size of contents*/), broadcast_endpoint);
 
-    testPOCOUdp();
+    // testPOCOUdp();
 }
