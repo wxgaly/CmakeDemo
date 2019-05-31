@@ -17,7 +17,7 @@ set(CMAKE_CXX_STANDARD 11)
 # 添加boost支持
 # set(BOOST_ROOT /Users/wangxuguang/Desktop/code/test/mycode/boost_1_66_0)
 set(BOOST_ROOT /Users/wangxuguang/Desktop/code/test/mycode/boost_1_70_0)
-find_package(Boost COMPONENTS system REQUIRED)
+find_package(Boost COMPONENTS system thread REQUIRED)
 
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})

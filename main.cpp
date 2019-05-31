@@ -5,6 +5,7 @@
 // #include "Stack.cpp"
 #include <pthread.h>
 #include "UdpClient.h"
+#include "socket/UdpServer.h"
 // #include "A.cpp"
 // #include <boost/date_time.hpp>
 #include <boost/version.hpp>
@@ -16,6 +17,22 @@
 // using namespace std;
 using namespace boost::asio;
 using namespace Poco::Net;
+
+#define byte unsigned char
+#define PACKET_HEAD_SIZE 24
+#define PAKKET_SEQUENCE_OFFSET 4
+
+#define PACKET_TYPE_OFFSET 8
+
+#define PACKET_PARAM1_OFFSET 10
+
+#define PACKET_PARAM2_OFFSET 12
+
+#define PACKET_LEN_OFFSET 16
+
+#define PACKET_HEAD_RESEVD 20 //reserved for the user implements the protocol.
+
+#define PACKET_HEAD_CHECKSUM_OFFSET 22
 
 struct thread_data
 {
@@ -103,6 +120,74 @@ void testPOCOUdp()
     Poco::Thread::sleep(20);
 }
 
+short checkSum(byte buff[], int offset, int count)
+{
+    short sum = 0;
+    for (int i = 0; i < count; i++)
+    {
+        sum += buff[offset + i];
+    }
+    return sum;
+}
+
+void shortToBytes(byte buff[], int offset, short value)
+{
+    buff[offset] = (byte)value;
+    buff[offset + 1] = (byte)(value >> 8);
+}
+
+void intToBytes(byte buff[], int offset, int value)
+{
+    buff[offset] = (byte)value;
+    buff[offset + 1] = (byte)(value >> 8);
+    buff[offset + 2] = (byte)(value >> 16);
+    buff[offset + 3] = (byte)(value >> 24);
+}
+
+byte *packHeadData(int sequence, short type, short what, int param2, int count)
+{
+    int head = 0x4e4f5641;
+    byte sendBuffer[PACKET_HEAD_SIZE] = {0};
+    intToBytes(sendBuffer, 0, head);
+    intToBytes(sendBuffer, PAKKET_SEQUENCE_OFFSET, sequence);
+    shortToBytes(sendBuffer, PACKET_TYPE_OFFSET, type);
+    shortToBytes(sendBuffer, PACKET_PARAM1_OFFSET, what);
+    intToBytes(sendBuffer, PACKET_PARAM2_OFFSET, param2);
+    intToBytes(sendBuffer, PACKET_LEN_OFFSET, count);
+
+    short headCheckSum = checkSum(sendBuffer, 0, PACKET_HEAD_SIZE - 2);
+    shortToBytes(sendBuffer, PACKET_HEAD_CHECKSUM_OFFSET, headCheckSum);
+    for (int i = 0; i < PACKET_HEAD_SIZE; i++)
+    {
+        cout << "sendBuffer[" << i << "] = " << (int)sendBuffer[i] << endl;
+    }
+    return sendBuffer;
+}
+
+void sendUdp()
+{
+    boost::this_thread::sleep(boost::posix_time::seconds(3)); 
+    UdpClient udpclient;
+    udpclient.bind("192.168.0.6", 16600);
+    std::cout << "ip : " << udpclient.getIp() << std::endl;
+    // byte data[] = {1, 2, 3, 4};
+    byte* data = packHeadData(-1, (short) 0x8855, 0x81, 0, 0);
+
+    for (int i = 0; i < PACKET_HEAD_SIZE; i++)
+    {
+        cout << "data[" << i << "] = " << *(data + i) << endl;
+    }
+    
+    udpclient.sendPacket(data, PACKET_HEAD_SIZE, true);
+}
+
+void testBoostUdp()
+{
+    UdpServer udpServer;
+    udpServer.bind("127.0.0.1", 16600);
+    udpServer.start();
+}
+
 int main(int, char **)
 {
     // int a = 2;
@@ -161,12 +246,6 @@ int main(int, char **)
 
     // testThread();
 
-    UdpClient udpclient;
-    udpclient.bind("192.168.0.6", 16600);
-    std::cout << "ip : " << udpclient.getIp() << std::endl;
-    unsigned char data[] = {1, 2, 3, 4};
-    udpclient.sendPacket(data, false);
-
     // A<int> a;
     // cout << a.add(1, 2) << endl;
 
@@ -191,4 +270,8 @@ int main(int, char **)
     // socket.send_to(buffer((void*)0, 0/*the size of contents*/), broadcast_endpoint);
 
     // testPOCOUdp();
+
+    boost::thread t1(&sendUdp);
+    testBoostUdp();
+    
 }

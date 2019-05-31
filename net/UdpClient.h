@@ -2,7 +2,7 @@
  * @Author: wangxuguang 
  * @Date: 2019-05-06 16:12:00 
  * @Last Modified by: wangxuguang
- * @Last Modified time: 2019-05-06 16:49:31
+ * @Last Modified time: 2019-05-30 18:01:29
  */
 #ifndef UDP_CLIENT_H
 #define UDP_CLIENT_H
@@ -11,7 +11,7 @@
 #include <string>
 #include "../ProjectConstants.h"
 
-#ifdef POCO 
+#ifdef POCO
 
 #include <Poco/Net/DatagramSocket.h>
 using namespace Poco::Net;
@@ -36,8 +36,8 @@ private:
 
 public:
     UdpClient();
-    void bind(const std::string& ip, int port);
-    void sendPacket(const void* data, bool isBroadcast);
+    void bind(const std::string &ip, int port);
+    void sendPacket(const void *data, int length, bool isBroadcast);
     string getIp();
 };
 
